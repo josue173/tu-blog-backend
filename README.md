@@ -4,7 +4,13 @@
 
 # Tu blog API
 
-1. Levantar DB
+1. Clonar proyecto
+2. ````yarn isntall```
+3. Clonar el archivo ```.env.template``` y renonmbralo a ```.env```
+4. Cambiar las variables de entorno
+5. Levantar DB
 ```
 docker-compose up -d
 ```
+6. Levantar proyecto
+```yarn start:dev```
