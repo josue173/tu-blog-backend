@@ -29,7 +29,7 @@ export class Usuario {
   })
   user_password: string;
   @Column({
-    type: 'int',
+    type: 'date', // yyyy-MM-dd
   })
-  user_age: number;
+  user_date_of_birthday: Date;
 }

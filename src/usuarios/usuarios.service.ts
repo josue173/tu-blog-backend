@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +12,8 @@ import { Usuario } from './entities/usuario.entity';
 
 @Injectable()
 export class UsuariosService {
+  private readonly logger = new Logger('UsuariosService');
+
   constructor(
     @InjectRepository(Usuario)
     private readonly _productRepository: Repository<Usuario>,
@@ -18,8 +25,7 @@ export class UsuariosService {
       await this._productRepository.save(user); // guardar registro
       return user;
     } catch (error) {
-      console.log(error);
-      throw new InternalServerErrorException('Send help!');
+      this.handleDBExceptions(error);
     }
   }
 
@@ -37,5 +43,11 @@ export class UsuariosService {
 
   remove(id: number) {
     return `This action removes a #${id} usuario`;
+  }
+
+  private handleDBExceptions(error: any) {
+    if (error.code === '23505') throw new BadRequestException(error.detail);
+    this.logger.error(error);
+    throw new InternalServerErrorException('Check server logs');
   }
 }
