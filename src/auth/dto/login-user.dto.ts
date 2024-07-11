@@ -11,7 +11,7 @@ import {
 export class LogInUserDto {
   @IsString()
   @IsEmail()
-  user_email: string;
+  email: string;
   @IsString()
   @MinLength(6)
   @MaxLength(50)
@@ -19,5 +19,5 @@ export class LogInUserDto {
     message:
       'The password must have a Uppercase, lowercase letter and a number',
   })
-  user_password: string;
+  password: string;
 }

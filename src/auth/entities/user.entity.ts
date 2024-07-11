@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  user_id: string;
+  id: string;
   @Column({
     type: 'text',
     unique: true,
@@ -12,25 +12,25 @@ export class User {
   @Column({
     type: 'text',
   })
-  user_first_name: string;
+  first_name: string;
   @Column({
     type: 'text',
   })
-  user_last_name: string;
+  last_name: string;
   @Column({
     type: 'text',
     unique: true,
   })
-  user_email: string;
+  email: string;
   @Column({
     type: 'text',
     select: false
   })
-  user_password: string;
+  password: string;
   @Column({
     type: 'date', // yyyy-MM-dd
   })
-  user_date_of_birthday: Date;
+  date_of_birthday: Date;
   @Column({
     type: 'bool',
     default: true,

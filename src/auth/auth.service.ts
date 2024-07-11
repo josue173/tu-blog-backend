@@ -20,13 +20,13 @@ export class AuthService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const { user_password, ...userData } = createUserDto;
+      const { password, ...userData } = createUserDto;
       const user = this._userRepository.create({
         ...userData,
-        user_password: bcrypt.hashSync(user_password, 10), // Hash de una sola vía
+        password: bcrypt.hashSync(password, 10), // Hash de una sola vía
       });
       await this._userRepository.save(user);
-      delete user.user_password;
+      delete user.password;
       // TO DO: retornar JWT de acceso
       return user;
     } catch (error) {
@@ -35,13 +35,13 @@ export class AuthService {
   }
 
   async login(loginUserDto: LogInUserDto) {
-    const { user_password, user_email } = loginUserDto;
+    const { password, email } = loginUserDto;
     const user = await this._userRepository.findOne({
-      where: { user_email },
-      select: { user_email: true, user_password: true },
+      where: { email },
+      select: { email: true, password: true },
     });
     if (!user) throw new UnauthorizedException('Invalid credentials');
-    if (!bcrypt.compareSync(user_password, user.user_password))
+    if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Invalid credentials');
     return user;
     // TO DO: retornar JWT

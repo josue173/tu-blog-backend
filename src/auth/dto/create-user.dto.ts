@@ -13,12 +13,12 @@ export class CreateUserDto {
   @MinLength(5)
   username: string;
   @IsString()
-  user_first_name: string;
+  first_name: string;
   @IsString()
-  user_last_name: string;
+  last_name: string;
   @IsString()
   @IsEmail()
-  user_email: string;
+  email: string;
   @IsString()
   @MinLength(6)
   @MaxLength(50)
@@ -26,8 +26,8 @@ export class CreateUserDto {
     message:
       'The password must have a Uppercase, lowercase letter and a number',
   })
-  user_password: string;
+  password: string;
   @IsDate()
   @Type(() => Date) // yyyy-MM-dd
-  user_date_of_birthday: Date;
+  date_of_birthday: Date;
 }
