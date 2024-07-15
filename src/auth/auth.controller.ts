@@ -1,7 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/index';
 import { LogInUserDto } from './dto/index';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -17,18 +24,9 @@ export class AuthController {
     return this._authService.login(loginUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this._authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this._authService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this._authService.remove(+id);
+  @Get('private')
+  @UseGuards(AuthGuard())
+  testingPrivateRoute() {
+    return 'hi';
   }
 }

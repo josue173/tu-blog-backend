@@ -33,7 +33,7 @@ export class AuthService {
       return {
         ...user,
         token: this.getJwtToken({
-          email: user.email,
+          id: user.id,
         }),
       };
     } catch (error) {
@@ -45,18 +45,19 @@ export class AuthService {
     const { password, email } = loginUserDto;
     const user = await this._userRepository.findOne({
       where: { email },
-      select: { email: true, password: true },
+      select: { email: true, password: true, id: true },
     });
     if (!user) throw new UnauthorizedException('Invalid credentials');
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('Invalid credentials');
+    delete user.password;
+    delete user.email;
     return {
       ...user,
       token: this.getJwtToken({
-        email: user.email,
+        id: user.id,
       }),
     };
-    // TO DO: retornar JWT
   }
 
   private getJwtToken(payload: JwtPayload) {
